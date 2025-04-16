@@ -6,20 +6,16 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, f1_score
 
-# Load the Iris dataset
 iris = load_iris()
 X = iris.data
 y = iris.target
 
-# Split into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
-# Standardize the features
 scaler = StandardScaler()
 X_train = scaler.fit_transform(X_train)
 X_test = scaler.transform(X_test)
 
-# Function to evaluate standard k-NN
 def evaluate_knn(k_values):
     for k in k_values:
         knn = KNeighborsClassifier(n_neighbors=k)
@@ -32,7 +28,6 @@ def evaluate_knn(k_values):
         print(f"F1-score: {f1:.4f}")
         print("-" * 30)
 
-# Function to evaluate weighted k-NN
 def evaluate_weighted_knn(k_values):
     for k in k_values:
         knn_weighted = KNeighborsClassifier(n_neighbors=k, weights=lambda d: 1 / (d**2 + 1e-5))
@@ -45,7 +40,6 @@ def evaluate_weighted_knn(k_values):
         print(f"F1-score: {f1:.4f}")
         print("-" * 30)
 
-# Evaluate both versions
 k_values = [1, 3, 5]
 evaluate_knn(k_values)
 evaluate_weighted_knn(k_values)
