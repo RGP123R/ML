@@ -2,28 +2,23 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+from scipy import stats
 
+# Load dataset from CSV
 def load_dataset(file_path):
-    """Loads a CSV dataset into a pandas DataFrame."""
     df = pd.read_csv(file_path)
     return df
 
+# Analyze numerical column
 def analyze_numerical_column(df, num_col):
-    """Analyzes a numerical column, prints statistics, and plots visualizations."""
-    if num_col not in df.columns:
-        print(f"Column '{num_col}' not found in dataset.")
-        return
-
-    df = df.dropna(subset=[num_col])  # Drop missing values for analysis
-    
     print(f"Statistics for {num_col}:")
     mean = df[num_col].mean()
     median = df[num_col].median()
-    mode = df[num_col].mode().iloc[0] if not df[num_col].mode().empty else "No mode"
+    mode = df[num_col].mode()[0]
     std_dev = df[num_col].std()
     variance = df[num_col].var()
     data_range = df[num_col].max() - df[num_col].min()
-    
+
     print(f"Mean: {mean}")
     print(f"Median: {median}")
     print(f"Mode: {mode}")
@@ -52,17 +47,14 @@ def analyze_numerical_column(df, num_col):
     lower_bound = Q1 - 1.5 * IQR
     upper_bound = Q3 + 1.5 * IQR
     outliers = df[(df[num_col] < lower_bound) | (df[num_col] > upper_bound)][num_col]
-    
+
     print(f"Outliers in {num_col}:\n{outliers}")
 
+# Analyze categorical column
 def analyze_categorical_column(df, cat_col):
-    """Analyzes a categorical column and creates bar and pie charts."""
-    if cat_col not in df.columns:
-        print(f"Column '{cat_col}' not found in dataset.")
-        return
-
+    print(f"Category Counts for {cat_col}:")
     category_counts = df[cat_col].value_counts()
-    print(f"Category Counts for {cat_col}:\n{category_counts}")
+    print(category_counts)
 
     # Bar Chart
     plt.figure(figsize=(10, 5))
@@ -79,12 +71,12 @@ def analyze_categorical_column(df, cat_col):
     plt.title(f'Pie Chart of {cat_col}')
     plt.show()
 
-if __name__ == "__main__":
-    file_path = 'data.csv'  # Replace with your dataset file path
-    df = load_dataset(file_path)
+# Example Usage
+file_path = 'data.csv'  # Replace with your dataset file path
+df = load_dataset(file_path)
 
-    numerical_column = 'Salary'  # Replace with a numerical column from the dataset
-    categorical_column = 'Department'  # Replace with a categorical column from the dataset
+numerical_column = 'Salary'  # Replace with a numerical column from your dataset
+categorical_column = 'Department'  # Replace with a categorical column from your dataset
 
-    analyze_numerical_column(df, numerical_column)
-    analyze_categorical_column(df, categorical_column)
+analyze_numerical_column(df, numerical_column)
+analyze_categorical_column(df, categorical_column)
