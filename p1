@@ -4,12 +4,10 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from scipy import stats
 
-# Load dataset from CSV
 def load_dataset(file_path):
     df = pd.read_csv(file_path)
     return df
 
-# Analyze numerical column
 def analyze_numerical_column(df, num_col):
     print(f"Statistics for {num_col}:")
     mean = df[num_col].mean()
@@ -26,7 +24,6 @@ def analyze_numerical_column(df, num_col):
     print(f"Variance: {variance}")
     print(f"Range: {data_range}")
 
-    # Histogram
     plt.figure(figsize=(10, 5))
     sns.histplot(df[num_col], bins=20, kde=True)
     plt.title(f'Histogram of {num_col}')
@@ -34,13 +31,11 @@ def analyze_numerical_column(df, num_col):
     plt.ylabel('Frequency')
     plt.show()
 
-    # Boxplot
     plt.figure(figsize=(6, 4))
     sns.boxplot(x=df[num_col])
     plt.title(f'Boxplot of {num_col}')
     plt.show()
 
-    # Outlier Detection using IQR
     Q1 = df[num_col].quantile(0.25)
     Q3 = df[num_col].quantile(0.75)
     IQR = Q3 - Q1
@@ -50,13 +45,11 @@ def analyze_numerical_column(df, num_col):
 
     print(f"Outliers in {num_col}:\n{outliers}")
 
-# Analyze categorical column
 def analyze_categorical_column(df, cat_col):
     print(f"Category Counts for {cat_col}:")
     category_counts = df[cat_col].value_counts()
     print(category_counts)
 
-    # Bar Chart
     plt.figure(figsize=(10, 5))
     sns.barplot(x=category_counts.index, y=category_counts.values)
     plt.title(f'Bar Chart of {cat_col}')
@@ -65,18 +58,16 @@ def analyze_categorical_column(df, cat_col):
     plt.xticks(rotation=45)
     plt.show()
 
-    # Pie Chart
     plt.figure(figsize=(6, 6))
     plt.pie(category_counts, labels=category_counts.index, autopct='%1.1f%%', startangle=140)
     plt.title(f'Pie Chart of {cat_col}')
     plt.show()
 
-# Example Usage
-file_path = 'data.csv'  # Replace with your dataset file path
+file_path = 'data.csv'
 df = load_dataset(file_path)
 
-numerical_column = 'Salary'  # Replace with a numerical column from your dataset
-categorical_column = 'Department'  # Replace with a categorical column from your dataset
+numerical_column = 'Salary'
+categorical_column = 'Department'
 
 analyze_numerical_column(df, numerical_column)
 analyze_categorical_column(df, categorical_column)
