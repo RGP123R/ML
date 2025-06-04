@@ -1,0 +1,35 @@
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.datasets import load_iris
+# Load the Iris dataset
+iris = load_iris()
+df = pd.DataFrame(data=iris.data, columns=iris.feature_names)
+# Select two numerical variables for scatter plot and correlation calculation
+x_col = 'sepal length (cm)'
+y_col = 'petal length (cm)'
+# Scatter plot
+plt.figure(figsize=(8, 6))
+plt.scatter(df[x_col], df[y_col], alpha=0.7, color='b', edgecolors='k')
+plt.xlabel(x_col)
+plt.ylabel(y_col)
+plt.title(f"Scatter Plot of {x_col} vs {y_col}")
+plt.grid(True)
+plt.show()
+# Calculate Pearson correlation coefficient
+pearson_corr = df[x_col].corr(df[y_col])
+print(f"Pearson Correlation Coefficient between {x_col} and {y_col}: {pearson_corr:.4f}")
+# Compute Covariance Matrix
+cov_matrix = df.cov()
+print("\nCovariance Matrix:")
+print(cov_matrix)
+# Compute Correlation Matrix
+corr_matrix = df.corr()
+print("\nCorrelation Matrix:")
+print(corr_matrix)
+# Visualize the correlation matrix using a heatmap
+plt.figure(figsize=(8, 6))
+sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', linewidths=0.5, fmt=".2f")
+plt.title("Correlation Matrix Heatmap")
+plt.show()
